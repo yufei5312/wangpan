@@ -1,23 +1,25 @@
 package com.atlogin.servlets;
 
+
 import com.Thymeleaf.viewBaseServlet;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class LoginServlet01 extends viewBaseServlet{
+@WebServlet("/login")
+public class LoginServlet02 extends viewBaseServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        String name = req.getParameter("userName");
-        String password = req.getParameter("password");
         String email = req.getParameter("email");
+        String password = req.getParameter("password");
 
-        System.out.println(name);
-        System.out.println(password);
         System.out.println(email);
+        System.out.println(password);
+
+        super.processTemplate("index", req, resp);
     }
 }

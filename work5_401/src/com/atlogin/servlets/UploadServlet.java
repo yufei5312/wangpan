@@ -26,11 +26,11 @@ public class UploadServlet extends HttpServlet {
 
         //上传文件的名字
         if(filename.isEmpty()) {
-            String submittedFileName = uploadfile.getSubmittedFileName();
+            filename = uploadfile.getSubmittedFileName();
         }
         //将文件上传到指定位置
         //uploadfile.write("d:/"+submittedFileName);
         String realPath = req.getServletContext().getRealPath("/upload/");
-        uploadfile.write(realPath + userName + "/" + filename);
+        uploadfile.write(realPath + "userName" + "/" + filename);
     }
 }

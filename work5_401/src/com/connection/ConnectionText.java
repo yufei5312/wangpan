@@ -9,9 +9,10 @@ import java.util.Properties;
 import static java.lang.Class.forName;
 
 public class ConnectionText {
-
+    public String userName;
     @Test
     public void testConnection() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+
 
         Class.forName("com.mysql.jdbc.Driver");
 
@@ -21,7 +22,7 @@ public class ConnectionText {
         System.out.println(conn);
 
         Statement statement = conn.createStatement();
-        String sql = String.format("SELECT name FROM users WHERE email = '%s' and passwd = '%s'", "zhangsan@std.uestc.edu.cn","zhang123haha" );
+        String sql = String.format("select `name` from users where email = 'zhangsan@std.uestc.edu.cn' and passwd = 'zhang123haha'" );
 
         ResultSet rs = statement.executeQuery(sql);
 
@@ -30,14 +31,13 @@ public class ConnectionText {
 
         //如果需要结果，处理resultset对象获取返回结果（仅针对查询语句）
         if(rs.next()) {
-            String userName = (String) rs.getObject(1);
+            userName = (String) rs.getObject(1);
         }
 
         //如果使用了resultset，则需关闭
         rs.close();
         statement.close();
         conn.close();
-        
     }
 
 }
