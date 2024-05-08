@@ -1,25 +1,23 @@
 package com.atlogin.servlets;
 
-import com.connection.ConnectionTest;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/uploadServlet")
 @MultipartConfig
 public class UploadServlet extends HttpServlet {
 
-
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        ConnectionTest a = new ConnectionTest();
+        // 获取当前会话
+        HttpSession session = req.getSession();
+
+        String userName = (String) session.getAttribute("user");
+
         //设置请求的编码格式
         req.setCharacterEncoding("utf-8");
         //获取表单中的文本域中的内容
@@ -36,8 +34,7 @@ public class UploadServlet extends HttpServlet {
         //将文件上传到指定位置
         //uploadfile.write("d:/" + submittedFileName);
         String realPath = req.getServletContext().getRealPath("/upload/");
-        System.out.println("username  "+a.userName);
-        uploadfile.write(realPath + a.userName + "/" + filename);
+        System.out.println("userName: "+ userName);
+        uploadfile.write(realPath + userName + "/" + filename);
     }
 }
-
