@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+     <table>
+         <tbody>
+         <tr>
+             <th>名称</th>
+         </tr>
+         <tr th:each="f:${allfiles}">
+             <td th:text="${f.getName()}">文件名</td>
+             <td>
+             <form method="post" action="download_file" enctype="multipart/form-data">
+                 <button type="submit" class="btn_download" name="filename" th:value="${f.getName()}" >点击下载</button>
+             </form>
+             </td>
+         </tr>
+         </tbody>
+     </table>
+     <form method="post" action="up_load">
+         <button type="submit" class="btn_upload">点击上传</button>
+     </form>
+</body>
+</html>
