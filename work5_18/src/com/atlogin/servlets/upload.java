@@ -1,0 +1,20 @@
+package com.atlogin.servlets;
+
+import com.Thymeleaf.viewBaseServlet;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet("/up_load")
+public class upload extends viewBaseServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("utf-8");
+        resp.setCharacterEncoding("utf-8");
+        resp.setContentType("text/html;charset=UTF-8");
+        resp.sendRedirect("/upLoad.html");
+    }
+}

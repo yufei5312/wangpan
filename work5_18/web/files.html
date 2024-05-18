@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主界面</title>
+</head>
+<body>
+     <table>
+         <tr>
+             <th>名称</th>
+         </tr>
+         <tr th:each="f:${allfiles}">
+             <td th:text="${f.getName()}">文件名</td>
+             <td>
+                 <form method="get" action="download_file" enctype="multipart/form-data">
+                     <input type="hidden" name="filename" th:value="${f.getName()}"/>
+                     <button type="submit" class="btn_download">点击下载</button>
+                 </form>
+             </td>
+             <td>
+                 <form method="get" action="delete">
+                     <input type="hidden" name="filename" th:value="${f.getName()}"/>
+                     <button type="submit" class="btn_delete">点击删除</button>
+                 </form>
+             </td>
+         </tr>
+     </table>
+     <form method="post" action="up_load">
+         <button type="submit" class="btn_upload">点击上传</button>
+     </form>
+     <form method="post" action="exit">
+         <button type="submit" class="btn_exit">退出登录</button>
+     </form>
+</body>
+</html>
