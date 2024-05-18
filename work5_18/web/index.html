@@ -19,11 +19,11 @@
                 <div class="fade-out">
                     <!--判断是否包含错误信息-->
                     <!--01登陆失败，请检查账号密码是否正确-->
-                    <p style="color:red;position:absolute;left:120px;top:80px" th:text="${errorMsg01}">err01</p>
+                    <p style="color:red;position:absolute;left:120px;top:80px" th:text="${errorMsg01}"></p>
                     <!--02账号已存在-->
-                    <p style="color:red;position:absolute;left:170px;top:80px" th:text="${errorMsg02}">err02</p>
+                    <p style="color:red;position:absolute;left:170px;top:80px" th:text="${errorMsg02}"></p>
                     <!--03退出登录-->
-                    <p style="color:red;position:absolute;left:200px;top:80px" th:text="${errorMsg03}">err03</p>
+                    <p style="color:red;position:absolute;left:200px;top:80px" th:text="${errorMsg03}"></p>
                     <!--5000毫秒后将div透明度设置为0-->
                     <script>
                         setTimeout(function(){
