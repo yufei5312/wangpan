@@ -1,0 +1,27 @@
+body{
+    background-image: linear-gradient(to right,#a1c4fd 0%,#c2e9fb 100%);
+    color: steelblue;
+    font-family: 方正姚体;
+}
+.aaa1{
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-top: 300px;
+    margin-left: 650px;
+}
+.big{
+    line-height: 30px;
+}
+.button{
+    border-radius: 20px;
+    border: 2px;
+    transition-duration: 0.4s;
+    padding: 12px 24px;
+    color: #0c5460;
+    font-size: 20px;
+}
+.button:hover{
+    background-color: lightblue;
+    color:white;
+}

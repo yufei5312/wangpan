@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件展示</title>
+    <link rel="stylesheet" href="file.css">
+    <script type="text/javascript" src="file.js"></script>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>名称</th>
+        </tr>
+        <tr th:each="f:${allfiles}">
+            <td id="charts" onmouseover="showBGcolor()" onmouseout="clearBGcolor()" th:text="${f.getName()}">文件名</td>
+            <td>
+                <form method="get" action="download_file" enctype="multipart/form-data">
+                    <input type="hidden" name="filename" th:value="${f.getName()}"/>
+                    <button type="submit" class="btn01">点击下载</button>
+                </form>
+            </td>
+            <td>
+                <form method="get" action="delete_file">
+                    <input type="hidden" name="filename" th:value="${f.getName()}"/>
+                    <button type="submit" class="btn01">点击删除</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+    <form method="post" action="upload">
+        <button type="submit" class="btn01">上传文件</button>
+    </form>
+    <form method="post" action="exit">
+        <button type="submit" class="btn01">退出登录</button>
+    </form>
+</body>
+</html>
