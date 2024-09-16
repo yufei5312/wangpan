@@ -15,7 +15,7 @@ public class DeleteServlet extends viewBaseServlet {
         req.setCharacterEncoding("utf-8");
         String filename = req.getParameter("filename");
         System.out.println("delete:"+filename);
-        String userpath = getServletContext().getRealPath("/upload/") + req.getSession().getAttribute("user");
+        String userpath = "D:/upload/" + req.getSession().getAttribute("user");
         try {
             File file = new File(userpath + "\\" + filename);
             if(file.delete())

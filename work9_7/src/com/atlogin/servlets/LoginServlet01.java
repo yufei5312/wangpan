@@ -90,13 +90,13 @@ public class LoginServlet01 extends viewBaseServlet{
             throw new RuntimeException(e);
         }
 
-        String realPath = req.getServletContext().getRealPath("\\upload");
-        Path path = Paths.get(realPath+"\\"+name);
+        //String realPath = req.getServletContext().getRealPath("\\upload");
+        String basePath = "D:\\upload";
+        Path path = Paths.get(basePath+"\\"+name);
         Files.createDirectory(path);
-        String workDir = realPath + "\\" +name;
+        String workDir = basePath + "\\" +name;
         HttpSession session = req.getSession();//这里先设置session后面才能调用键值对
         session.setAttribute("user",name);
-
         System.out.println("nameUse:"+name);
         System.out.println(workDir);
         File file = new File(workDir);

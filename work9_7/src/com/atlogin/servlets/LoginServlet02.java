@@ -16,118 +16,48 @@ import java.sql.*;
 @WebServlet("/login")
 public class LoginServlet02 extends viewBaseServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-
-        System.out.println(email);
-        System.out.println(password);
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        String url = "jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf8";
-
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url, "root", "yufei5312");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(conn);
-
-
-        /*Statement statement = null;
-        try {
-            statement = conn.createStatement();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }*/
-        String sql = "SELECT name FROM users WHERE email = ? and password = ?";
-        PreparedStatement ps = null;
-        try {
-            ps = conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            ps.setObject(1,email);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            ps.setObject(2,password);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        ResultSet rs = null;
-        try {
-            rs = ps.executeQuery();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        /*ResultSet rs = null;
-        try {
-            rs = statement.executeQuery(sql);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }*/
-        //对于更新，删除，修改操作等不需要返回结果的情况，可直接使用
-        //statement.executeUpdate(sql);
-
-        //如果需要结果，处理resultset对象获取返回结果（仅针对查询语句）
-        String userName = null;
-        try {
-            if (rs.next()) {
-                try {
-                    userName = (String) rs.getObject(1);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(userName);
-
-        //如果使用了resultset，则需关闭
-        try {
-            rs.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            ps.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-
+        String userName = queryLoginInfoNew(email, password);
         if (userName != null) {
-            String realPath = req.getServletContext().getRealPath("\\upload");
+            //String realPath = req.getServletContext().getRealPath("\\upload");
+            String basePath = "D:\\upload";
             HttpSession session = req.getSession();
-            session.setAttribute("user",userName);
+            session.setAttribute("user", userName);
             String name = (String) session.getAttribute("user");
-            String workDir = realPath + "\\" +name;
+            String workDir = basePath + "\\" + name;
             System.out.println(workDir);
             File file = new File(workDir);
             File[] files = file.listFiles();
-            req.setAttribute("allfiles",files);
-            super.processTemplate("file",req,resp);
+            req.setAttribute("allfiles", files);
+            super.processTemplate("file", req, resp);
+        } else {
+            req.setAttribute("errorMsg01", "登录失败，请检查邮箱及密码是否正确");
+            super.processTemplate("register", req, resp);
         }
-        else{
-            req.setAttribute("errorMsg01","登录失败，请检查邮箱及密码是否正确");//设置键值对显示相应错误信息
-            super.processTemplate("register",req,resp);//这里用了thymeleaf渲染页面
+    }
+    public String queryLoginInfoNew(String email, String password) {
+        String userName = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/demo? useUnicode=true&characterEncoding=utf8";
+            Connection conn = DriverManager.getConnection(url, "root", "yufei5312");
+            String safe_sql = "SELECT name FROM users WHERE email = ? and password = ?";
+            PreparedStatement ps = conn.prepareStatement(safe_sql);
+            ps.setObject(1, email);
+            ps.setObject(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                userName = (String)rs.getObject(1);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return userName;
     }
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,5 +33,119 @@
     <form method="post" action="exit">
         <button type="submit" class="btn01">退出登录</button>
     </form>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件展示</title>
+    <link rel="stylesheet" href="file.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-size: 1.1em;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn01 {
+            padding: 8px 16px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        .btn01:hover {
+            background-color: #0056b3;
+        }
+        form {
+            display: inline-block;
+        }
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .actions form {
+            margin-right: 15px;
+        }
+        .actions button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .actions button:hover {
+            background-color: #218838;
+        }
+        .actions .logout-btn {
+            background-color: #17a2b8;
+        }
+        .actions .logout-btn:hover {
+            background-color: #727b84;
+        }
+    </style>
+    <script type="text/javascript" src="file.js"></script>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>文件名称</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="f:${allfiles}">
+        <td id="charts"  th:text="${f.getName()}">文件名</td>
+        <td>
+            <form method="get" action="download_file" enctype="multipart/form-data">
+                <input type="hidden" name="filename" th:value="${f.getName()}"/>
+                <button type="submit" class="btn01">下载</button>
+            </form>
+            <form method="get" action="delete_file">
+                <input type="hidden" name="filename" th:value="${f.getName()}"/>
+                <button type="submit" class="btn01">删除</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+<div class="actions">
+    <form method="post" action="upload">
+        <button type="submit" class="btn01">上传文件</button>
+    </form>
+    <form method="post" action="exit">
+        <button type="submit" class="logout-btn">退出登录</button>
+    </form>
+</div>
+
 </body>
 </html>

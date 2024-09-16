@@ -9,24 +9,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @WebServlet("/download_file")
 public class DownloadServlet01 extends viewBaseServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String filePath = req.getParameter("filePath");
-        if (filePath == null || filePath.contains("..") || filePath.contains("/") || filePath.contains("\\"))//检查路径是否无效
-        {
-            resp.setContentType("text/html;charset=UTF=8");
-            resp.getWriter().write("<h2>文件路径无效</h2>");
-            resp.getWriter().close();
-            return;
-        }
+        //获取基础路径
+        Path basePath = Paths.get("D:/upload");
         String fileName = req.getParameter("filename");
         System.out.println(fileName);
-        String userPath = getServletContext().getRealPath("/upload/") + req.getSession().getAttribute("user");
-        File file = new File(userPath + "\\" + fileName);
-        System.out.println(userPath + "\\" + fileName);
+        //获取用户名
+        String user = (String)req.getSession().getAttribute("user");
+        //路径规范化
+        Path userPath = basePath.resolve(user);
+        Path normalizedPath = userPath.normalize();
+        // 检查是否试图访问特定目录之外的路径
+        if (!normalizedPath.startsWith(userPath)) {
+            sendErrorResponse(resp, "非法访问");
+            return;
+        }
+        //用File的构造函数自动连接路径和文件名产生新路径
+        File file = new File(normalizedPath.toFile(), fileName);
+        System.out.println(normalizedPath + "\\" + fileName);
         if (file.exists() && file.isFile())//文件可执行
         {
             resp.setContentType("application/x-msdownload");
@@ -42,14 +48,17 @@ public class DownloadServlet01 extends viewBaseServlet {
             {
                 os.write(temp, 0, len);
             }
-            os.close();
             is.close();
+            os.close();
         }
         else
         {
-            resp.setContentType("text/html;charset=UTF-8");
-            resp.getWriter().write("<h2>要下载的文件不存在</h2>");
-            resp.getWriter().close();
+            sendErrorResponse(resp, "要下载的文件不存在");
         }
+    }
+    private void sendErrorResponse(HttpServletResponse resp, String message) throws IOException {
+        resp.setContentType("text/html;charset=UTF-8");
+        resp.getWriter().write("<h2>" + message + "</h2>");
+        resp.getWriter().close();
     }
 }

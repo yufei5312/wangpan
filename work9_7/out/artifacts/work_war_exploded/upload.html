@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,5 +15,90 @@
     </form>
     </p>
 </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传界面</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="text"], input[type="file"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 10px;
+            color: #f00;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>上传文件</h2>
+    <form method="post" action="uploadServlet" enctype="multipart/form-data">
+        <label for="filename">提交文件名字：</label>
+        <input type="text" id="filename" name="filename" placeholder="请输入文件名">
+
+        <label for="uploadfile">选择文件：</label>
+        <input type="file" id="uploadfile" name="uploadfile">
+
+        <button type="submit" class="button">点击上传</button>
+    </form>
+
+    <!-- 提示信息 -->
+    <p class="message">文件名不允许包含 //、\\ 等非法字符</p>
+</div>
+
 </body>
 </html>
