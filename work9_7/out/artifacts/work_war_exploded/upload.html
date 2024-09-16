@@ -1,23 +1,4 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>上传界面</title>
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
-<div class="aaa1">
-    <p class="big">
-    <form method="post" action="uploadServlet" enctype="multipart/form-data">
-        提交文件名字：<input type="text" name="filename"><br>
-        文件：<input type="file" name="uploadfile"><br>
-        <button type="submit" class="button">点击上传</button><br>
-    </form>
-    </p>
-</div>
-</body>
-</html> -->
-
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,8 +77,101 @@
         <button type="submit" class="button">点击上传</button>
     </form>
 
+    <p class="message">文件名只允许大小写英文、数字、汉字、下划线和句号（.）的组合</p>
+</div>
+
+</body>
+</html>  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传界面</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #ece9e6, #ffffff);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .upload-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .upload-container:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="text"], input[type="file"] {
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #f00;
+        }
+    </style>
+</head>
+<body>
+
+<div class="upload-container">
+    <h2>上传文件</h2>
+    <form method="post" action="uploadServlet" enctype="multipart/form-data">
+        <label for="filename">提交文件名字：</label>
+        <input type="text" id="filename" name="filename" placeholder="请输入文件名">
+
+        <label for="uploadfile">选择文件：</label>
+        <input type="file" id="uploadfile" name="uploadfile">
+
+        <button type="submit" class="button">点击上传</button>
+    </form>
+
     <!-- 提示信息 -->
-    <p class="message">文件名不允许包含 //、\\ 等非法字符</p>
+    <p class="message">文件名只允许大小写英文、数字、汉字、下划线和句号（.）的组合</p>
 </div>
 
 </body>

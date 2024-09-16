@@ -1,151 +1,140 @@
-<!--<!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>文件展示</title>
-    <link rel="stylesheet" href="file.css">
-    <script type="text/javascript" src="file.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(-45deg, #f0f4c3, #e1f5fe, #ffe0b2, #ffccbc);
+            background-size: 400% 400%;
+            animation: gradient 12s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 70%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f7f7f7;
+            font-size: 18px;
+            color: #555;
+        }
+
+        td {
+            font-size: 16px;
+            color: #555;
+        }
+
+        tr:hover {
+            background-color: #f1f8e9;
+        }
+
+        .btn01 {
+            background-color: #8eacbb;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn01:hover {
+            background-color: #7ba4b0;
+            transform: scale(1.05);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-upload, .btn-logout {
+            background-color: #b0bec5;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-upload:hover, .btn-logout:hover {
+            background-color: #90a4ae;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <h1>文件展示</h1>
     <table>
         <tr>
-            <th>名称</th>
+            <th>文件名</th>
+            <th>操作</th>
         </tr>
+        <!-- 用于动态生成文件列表的部分 -->
         <tr th:each="f:${allfiles}">
-            <td id="charts" onmouseover="showBGcolor()" onmouseout="clearBGcolor()" th:text="${f.getName()}">文件名</td>
+            <td th:text="${f.getName()}">文件名</td>
             <td>
-                <form method="get" action="download_file" enctype="multipart/form-data">
+                <form method="get" action="download_file" enctype="multipart/form-data" style="display:inline;">
                     <input type="hidden" name="filename" th:value="${f.getName()}"/>
                     <button type="submit" class="btn01">点击下载</button>
                 </form>
-            </td>
-            <td>
-                <form method="get" action="delete_file">
+                <form method="get" action="delete_file" style="display:inline;">
                     <input type="hidden" name="filename" th:value="${f.getName()}"/>
                     <button type="submit" class="btn01">点击删除</button>
                 </form>
             </td>
         </tr>
     </table>
-    <form method="post" action="upload">
-        <button type="submit" class="btn01">上传文件</button>
-    </form>
-    <form method="post" action="exit">
-        <button type="submit" class="btn01">退出登录</button>
-    </form>
-</body>
-</html> -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文件展示</title>
-    <link rel="stylesheet" href="file.css">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-        table {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #007BFF;
-            color: white;
-            font-size: 1.1em;
-        }
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-        .btn01 {
-            padding: 8px 16px;
-            background-color: #007BFF;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 4px;
-        }
-        .btn01:hover {
-            background-color: #0056b3;
-        }
-        form {
-            display: inline-block;
-        }
-        .actions {
-            text-align: center;
-            margin-top: 30px;
-        }
-        .actions form {
-            margin-right: 15px;
-        }
-        .actions button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        .actions button:hover {
-            background-color: #218838;
-        }
-        .actions .logout-btn {
-            background-color: #17a2b8;
-        }
-        .actions .logout-btn:hover {
-            background-color: #727b84;
-        }
-    </style>
-    <script type="text/javascript" src="file.js"></script>
-</head>
-<body>
-
-<table>
-    <tr>
-        <th>文件名称</th>
-        <th>操作</th>
-    </tr>
-    <tr th:each="f:${allfiles}">
-        <td id="charts"  th:text="${f.getName()}">文件名</td>
-        <td>
-            <form method="get" action="download_file" enctype="multipart/form-data">
-                <input type="hidden" name="filename" th:value="${f.getName()}"/>
-                <button type="submit" class="btn01">下载</button>
-            </form>
-            <form method="get" action="delete_file">
-                <input type="hidden" name="filename" th:value="${f.getName()}"/>
-                <button type="submit" class="btn01">删除</button>
-            </form>
-        </td>
-    </tr>
-</table>
-
-<div class="actions">
-    <form method="post" action="upload">
-        <button type="submit" class="btn01">上传文件</button>
-    </form>
-    <form method="post" action="exit">
-        <button type="submit" class="logout-btn">退出登录</button>
-    </form>
+    <div class="button-container">
+        <form method="post" action="upload">
+            <button type="submit" class="btn-upload">上传文件</button>
+        </form>
+        <form method="post" action="exit">
+            <button type="submit" class="btn-logout">退出登录</button>
+        </form>
+    </div>
 </div>
-
 </body>
 </html>
